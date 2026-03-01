@@ -13,22 +13,31 @@ jobs:
       - name: Checkout repository
         uses: actions/checkout@v3
 
-      # Step 2: Authenticate with Google Cloud
+      # Step 2: Authenticate to Google Cloud
+      - name: Authenticate to Google Cloud
+        uses: google-github-actions/auth@v1
+        with:
+          credentials_json: ${{ secrets.GCP_SA_KEY }}
+
+      # Step 3: Set up Google Cloud SDK
       - name: Set up Google Cloud SDK
         uses: google-github-actions/setup-gcloud@v2
         with:
           project_id: ridwan-faturrahman
-          service_account_key: ${{ secrets.GCP_SA_KEY }}
-          export_default_credentials: true
+          version: 'latest'
 
-      # Step 3: Build Docker image
+      # Step 4: Configure Docker to use gcloud as a credential helper
+      - name: Configure Docker for Artifact Registry
+        run: gcloud auth configure-docker us-central1-docker.pkg.dev
+
+      # Step 5: Build Docker image
       - name: Build Docker image
         run: |
           IMAGE_NAME=us-central1-docker.pkg.dev/ridwan-faturrahman/fastapi-repo/fastapi-app
           IMAGE_TAG=${GITHUB_SHA::7}
           docker build -t $IMAGE_NAME:latest -t $IMAGE_NAME:$IMAGE_TAG .
 
-      # Step 4: Push Docker image
+      # Step 6: Push Docker image
       - name: Push Docker image
         run: |
           IMAGE_NAME=us-central1-docker.pkg.dev/ridwan-faturrahman/fastapi-repo/fastapi-app
