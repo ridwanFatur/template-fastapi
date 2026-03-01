@@ -7,7 +7,7 @@ from middleware.origin_middleware import check_allowed_origin
 from fastapi import FastAPI
 
 from db.database import Base, engine
-from utils.config import CORS_ORIGINS, IS_DEBUG
+from utils.config import CORS_ORIGINS
 
 
 app = FastAPI(title="Template Project",
@@ -30,7 +30,7 @@ app.middleware("http")(check_allowed_origin)
 
 @app.get("/")
 async def root():
-    return {"message": "App is Ready", "debug": IS_DEBUG}
+    return {"message": "App is Ready"}
 
 app.include_router(auth.router)
 app.include_router(user.router)
