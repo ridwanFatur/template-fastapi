@@ -30,7 +30,7 @@ app.middleware("http")(check_allowed_origin)
 
 @app.get("/")
 async def root():
-    return {"message": "App is Ready"}
+    return {"message": "App is Ready (Updated)"}
 
 app.include_router(auth.router)
 app.include_router(user.router)
