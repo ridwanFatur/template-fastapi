@@ -3,7 +3,6 @@ from fastapi.middleware.cors import CORSMiddleware
 
 
 from api import auth, user
-from middleware.origin_middleware import check_allowed_origin
 from fastapi import FastAPI
 
 from db.database import Base, engine
@@ -25,12 +24,9 @@ app.add_middleware(
 )
 
 
-app.middleware("http")(check_allowed_origin)
-
-
 @app.get("/")
 async def root():
-    return {"message": "App is Ready 2"}
+    return {"message": "App is Ready"}
 
 app.include_router(auth.router)
 app.include_router(user.router)
