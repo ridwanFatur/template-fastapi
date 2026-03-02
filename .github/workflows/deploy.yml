@@ -48,10 +48,8 @@ jobs:
           docker push $IMAGE_NAME:$IMAGE_TAG
 
       - name: Deploy to GCE VM
-        run: |
-          IMAGE_NAME=us-central1-docker.pkg.dev/ridwan-faturrahman/fastapi-repo/fastapi-app
-          
-          ssh ${{ secrets.APP1_SSH_USER }}@${{ secrets.APP1_VM_IP }} << 'EOF'
+        run: |          
+          ssh ${{ secrets.APP1_VM_USER }}@${{ secrets.APP1_VM_IP }} << 'EOF'
             gcloud auth configure-docker us-central1-docker.pkg.dev --quiet
             docker pull us-central1-docker.pkg.dev/ridwan-faturrahman/fastapi-repo/fastapi-app:latest
 
