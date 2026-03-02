@@ -65,4 +65,5 @@ jobs:
               --env-file .env.fastapi \
               us-central1-docker.pkg.dev/ridwan-faturrahman/fastapi-repo/fastapi-app:latest
             rm -f .env.fastapi
+            docker images -f "dangling=true" -q us-central1-docker.pkg.dev/ridwan-faturrahman/fastapi-repo/fastapi-app | xargs -r docker rmi
           EOF
